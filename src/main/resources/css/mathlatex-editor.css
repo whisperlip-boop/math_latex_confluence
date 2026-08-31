@@ -1,0 +1,181 @@
+/* The macro browser replacement dialog. */
+
+/* A column so the preview panel can absorb whatever height the form does not use. */
+#mathlatex-dialog .dialog-panel-body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: auto;
+}
+
+#mathlatex-form {
+    flex: 0 0 auto;
+}
+
+#mathlatex-desc {
+    color: #6b778c;
+    margin-bottom: 14px;
+}
+
+#mathlatex-source {
+    width: 100%;
+    /* AUI caps form controls with max-width - the job its .long-field class exists to undo.
+       Setting width alone leaves the field stuck at AUI's default. */
+    max-width: 100%;
+    box-sizing: border-box;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    margin-bottom: 16px;
+}
+
+/*
+ * Laid out here rather than with AUI's .field-group so the help text lines up with the left edge
+ * of the control it describes, instead of being pushed to AUI's own indent.
+ */
+.mathlatex-field {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.mathlatex-field > label,
+.mathlatex-field > .mathlatex-field-label {
+    flex: 0 0 110px;
+    padding: 5px 12px 0 0;
+    text-align: right;
+    font-weight: 600;
+    color: #42526e;
+}
+
+.mathlatex-control {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.mathlatex-control > .select,
+.mathlatex-control > .text {
+    width: 260px;
+    max-width: 100%;
+}
+
+.mathlatex-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.mathlatex-checkbox > input {
+    margin: 0;
+}
+
+.mathlatex-help {
+    margin-top: 4px;
+    color: #6b778c;
+    font-size: 12px;
+}
+
+#mathlatex-preview-panel {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    /* Lets the panel shrink below its content instead of overflowing the dialog. */
+    min-height: 0;
+    border-top: 1px solid #dfe1e6;
+    margin-top: 8px;
+    padding-top: 12px;
+}
+
+#mathlatex-preview-panel h4 {
+    flex: 0 0 auto;
+    margin: 0 0 8px;
+    color: #6b778c;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+#mathlatex-preview {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-height: 96px;
+    padding: 12px;
+    background: #f4f5f7;
+    border-radius: 3px;
+}
+
+.mathlatex-preview-eqno {
+    flex: 0 0 auto;
+    width: 3em;
+    font-size: 14px;
+    color: #42526e;
+}
+
+.mathlatex-preview-out {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    /* Explicit: with overflow-x set, a `visible` overflow-y computes to `auto`, which is where the
+       stray vertical scrollbar came from. Only sideways scrolling is wanted here. */
+    overflow-y: hidden;
+}
+
+/* Same reason as in mathlatex.css: KaTeX centres .katex-display regardless of the container. */
+#mathlatex-preview .katex-display,
+#mathlatex-preview .katex-display > .katex {
+    text-align: inherit;
+    margin: 0;
+}
+
+#mathlatex-preview-error {
+    flex: 0 0 auto;
+    margin-top: 6px;
+    color: #bf2600;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+#mathlatex-preview-error:empty {
+    display: none;
+}
+
+/*
+ * Icons for the places Confluence lists a macro by name. None of these take the macro module's
+ * `icon` attribute - the editor styles them from the macro name instead, so each spot needs its
+ * own selector.
+ */
+
+/* The "+" (insert more content) menu and the legacy TinyMCE menu. */
+#insert-menu .macro-mathblock .icon,
+.mceMenu .mceMenuItem .mce_menu_conf_macro_mathblock .mceIcon {
+    background: transparent url("svg/insert_block.svg") 0 0 no-repeat;
+    background-size: contain;
+    margin-top: 0;
+}
+
+#insert-menu .macro-mathinline .icon,
+.mceMenu .mceMenuItem .mce_menu_conf_macro_mathinline .mceIcon {
+    background: transparent url("svg/insert_inline.svg") 0 0 no-repeat;
+    background-size: contain;
+    margin-top: 0;
+}
+
+/* The "{macro" autocomplete dropdown, and the placeholder shown in the editor body. */
+#autocomplete-dropdown .autocomplete-macros li.autocomplete-macro-mathblock .icon,
+.macro-placeholder-icon-mathblock {
+    background: transparent url("svg/insert_block.svg") 0 0 no-repeat;
+    background-size: contain;
+    margin-top: 2px;
+}
+
+#autocomplete-dropdown .autocomplete-macros li.autocomplete-macro-mathinline .icon,
+.macro-placeholder-icon-mathinline {
+    background: transparent url("svg/insert_inline.svg") 0 0 no-repeat;
+    background-size: contain;
+    margin-top: 2px;
+}

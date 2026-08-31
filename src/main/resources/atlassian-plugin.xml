@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" pluginsVersion="2">
+
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}"/>
+        <param name="plugin-icon">images/icon_16.png</param>
+        <param name="plugin-logo">images/icon_72.png</param>
+        <param name="atlassian-data-center-compatible">true</param>
+        <param name="atlassian-data-center-status">compatible</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="mathlatex"/>
+
+    <!-- ============================== Macros ============================== -->
+
+    <!--
+      The `icon` attribute must stay a raster image. Confluence composites the editor placeholder
+      for an inline macro server side with ImageIO, which cannot read SVG: pointing `icon` at an
+      SVG makes DefaultPlaceholderImageFactory.getIcon() return null, the placeholder servlet
+      returns 500, and the inserted macro is invisible in the editor. SVG is fine for the menu
+      icons in mathlatex-editor.css, which the browser renders itself.
+    -->
+    <xhtml-macro name="mathblock"
+                 key="mathblock"
+                 class="com.bskim.conf.mathlatex.MathBlockMacro"
+                 icon="/download/resources/${atlassian.plugin.key}:mathlatex-editor-resources/images/insert_block_80.png">
+        <category name="confluence-content"/>
+        <parameters>
+            <parameter name="alignment" type="enum" default="left">
+                <value name="left"/>
+                <value name="center"/>
+                <value name="right"/>
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+            <parameter name="anchor" type="string">
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+            <parameter name="numbered" type="boolean" default="true">
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+            <parameter name="size" type="enum" default="normal">
+                <value name="normal"/>
+                <value name="h1"/>
+                <value name="h2"/>
+                <value name="h3"/>
+                <value name="h4"/>
+                <value name="h5"/>
+                <value name="h6"/>
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+        </parameters>
+    </xhtml-macro>
+
+    <xhtml-macro name="mathinline"
+                 key="mathinline"
+                 class="com.bskim.conf.mathlatex.MathInlineMacro"
+                 icon="/download/resources/${atlassian.plugin.key}:mathlatex-editor-resources/images/insert_inline_80.png">
+        <category name="confluence-content"/>
+        <parameters>
+            <parameter name="body" type="string" required="true">
+                <option key="showNameInPlaceholder" value="false"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+            <parameter name="size" type="enum" default="normal">
+                <value name="normal"/>
+                <value name="h1"/>
+                <value name="h2"/>
+                <value name="h3"/>
+                <value name="h4"/>
+                <value name="h5"/>
+                <value name="h6"/>
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+        </parameters>
+    </xhtml-macro>
+
+    <!-- ========================== KaTeX bundle =========================== -->
+    <!--
+      Pulled in by dependency, never by context, so KaTeX only loads where it is needed.
+      katex.min.css is served unbatched on purpose: it references its fonts with relative URLs
+      (fonts/KaTeX_Main-Regular.woff2) which only resolve against the plugin's own
+      /download/resources/<plugin-key>:katex/ path, not against a /s/.../batch.css URL.
+    -->
+    <web-resource key="katex" name="KaTeX">
+        <resource type="download" name="katex.min.css" location="katex/katex.min.css">
+            <param name="batch" value="false"/>
+        </resource>
+        <resource type="download" name="fonts/" location="katex/fonts"/>
+        <resource type="download" name="katex.min.js" location="katex/katex.min.js"/>
+        <!-- Chemical equations (\ce{H2O}). Must come after katex.min.js: it registers itself
+             against the global katex object at load time. -->
+        <resource type="download" name="mhchem.min.js" location="katex/mhchem.min.js"/>
+    </web-resource>
+
+    <!-- ===================== Rendering on the page ======================= -->
+
+    <web-resource key="mathlatex-view-resources" name="Math LaTeX view resources">
+        <context>viewcontent</context>
+        <context>preview</context>
+        <dependency>${atlassian.plugin.key}:katex</dependency>
+        <resource type="download" name="mathlatex.css" location="css/mathlatex.css"/>
+        <resource type="download" name="mathlatex-render.js" location="js/mathlatex-render.js"/>
+    </web-resource>
+
+    <!-- ===================== The macro browser dialog ==================== -->
+
+    <web-resource key="mathlatex-editor-resources" name="Math LaTeX editor resources">
+        <context>editor</context>
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.confluence.tinymceplugin:editor-resources</dependency>
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>confluence.web.resources:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-forms</dependency>
+        <dependency>${atlassian.plugin.key}:katex</dependency>
+        <!--
+          SVG rather than PNG for the icons: the menu draws them at 16px, and a 16px bitmap is
+          resampled - and visibly blurred - on any display running above 100% scaling.
+          The declared content-type matters; a browser will not render SVG served as image/png.
+        -->
+        <resource type="download" name="svg/" location="svg">
+            <param name="content-type" value="image/svg+xml"/>
+        </resource>
+        <resource type="download" name="images/" location="images">
+            <param name="content-type" value="image/png"/>
+        </resource>
+        <resource type="download" name="mathlatex-editor.css" location="css/mathlatex-editor.css"/>
+        <resource type="download" name="mathlatex-editor.js" location="js/mathlatex-editor.js"/>
+    </web-resource>
+
+    <!-- ============ Shortcuts in the editor's "+" (insert) menu ========== -->
+
+    <web-item key="mathblock-macro-menu" name="Insert Math Block" section="system.editor.featured.macros.default" weight="100">
+        <label key="com.bskim.conf.mathlatex.mathblock.label"/>
+        <link linkId="mathblock"/>
+    </web-item>
+
+    <web-item key="mathinline-macro-menu" name="Insert Math Inline" section="system.editor.featured.macros.default" weight="110">
+        <label key="com.bskim.conf.mathlatex.mathinline.label"/>
+        <link linkId="mathinline"/>
+    </web-item>
+
+</atlassian-plugin>

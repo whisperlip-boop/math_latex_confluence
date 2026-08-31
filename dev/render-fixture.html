@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Math LaTeX render fixture</title>
+<!--
+  Open this file directly in a browser to check the view-side rendering without deploying to
+  Confluence. The markup below is exactly what MathBlockMacro / MathInlineMacro emit, wrapped in the
+  .wiki-content container Confluence puts page bodies in.
+-->
+<link rel="stylesheet" href="../src/main/resources/katex/katex.min.css">
+<link rel="stylesheet" href="../src/main/resources/css/mathlatex.css">
+<style>
+  body { font: 14px/1.6 -apple-system, "Segoe UI", Roboto, sans-serif; margin: 40px auto; max-width: 820px; color: #172b4d; }
+  h2 { font-size: 15px; margin: 32px 0 8px; color: #6b778c; text-transform: uppercase; letter-spacing: .04em; }
+  .wiki-content { border: 1px solid #dfe1e6; border-radius: 3px; padding: 16px 20px; }
+</style>
+</head>
+<body>
+
+<h2>Page body</h2>
+<div class="wiki-content">
+  <p>From classic elastic column buckling theory, the Euler slenderness ratio is</p>
+
+  <div class="mathlatex-block" data-mathlatex-align="left">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\lambda = \sqrt{\frac{\sigma_F}{\sigma_{ET}}}</span></span>
+  </div>
+
+  <div class="mathlatex-block" data-mathlatex-align="left" data-mathlatex-anchor="buckling2" id="mathlatex-buckling2">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\sigma_{ET} = \frac{\pi^2 El_f}{A_e\left(KL\right)^2}</span></span>
+  </div>
+
+  <p>Centered, and an inline one: <span class="mathlatex-inline mathlatex-size-normal"><span class="mathlatex-src">e^{i\pi} + 1 = 0</span></span> sits in the text.</p>
+
+  <div class="mathlatex-block" data-mathlatex-align="center">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}</span></span>
+  </div>
+
+  <div class="mathlatex-block" data-mathlatex-align="right">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}</span></span>
+  </div>
+
+  <p>Numbering off - note that (3) below is not skipped to (4):</p>
+  <div class="mathlatex-block" data-mathlatex-align="left">
+    <span class="mathlatex-body"><span class="mathlatex-src">x + y = z</span></span>
+  </div>
+
+  <p>Sizes, from H1 down to H6:</p>
+  <div class="mathlatex-block mathlatex-size-h1" data-mathlatex-align="left">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">E = mc^2</span></span>
+  </div>
+  <div class="mathlatex-block mathlatex-size-h3" data-mathlatex-align="left">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">E = mc^2</span></span>
+  </div>
+  <div class="mathlatex-block mathlatex-size-h6" data-mathlatex-align="left">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">E = mc^2</span></span>
+  </div>
+
+  <p>Chemistry, via the bundled mhchem extension:</p>
+  <div class="mathlatex-block" data-mathlatex-align="center">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\ce{2H2 + O2 -&gt; 2H2O}</span></span>
+  </div>
+
+  <p>A broken formula should stay readable rather than vanish:</p>
+  <div class="mathlatex-block" data-mathlatex-align="center">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">\frac{a}{</span></span>
+  </div>
+</div>
+
+<h2>A comment (numbering restarts)</h2>
+<div class="comment-content">
+  <div class="mathlatex-block" data-mathlatex-align="left">
+    <span class="mathlatex-eqno"></span>
+    <span class="mathlatex-body"><span class="mathlatex-src">a^2 + b^2 = c^2</span></span>
+  </div>
+</div>
+
+<script src="../src/main/resources/katex/katex.min.js"></script>
+<script src="../src/main/resources/katex/mhchem.min.js"></script>
+<script src="../src/main/resources/js/mathlatex-render.js"></script>
+</body>
+</html>

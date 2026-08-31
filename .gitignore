@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+amps-standalone-*/
+dev/lib/
+dev/*.class
+.vscode/

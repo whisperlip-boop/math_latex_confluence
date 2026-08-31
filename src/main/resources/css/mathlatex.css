@@ -1,0 +1,104 @@
+/* Rendered output for the mathblock / mathinline macros. */
+
+.mathlatex-block {
+    display: flex;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.mathlatex-eqno {
+    flex: 0 0 auto;
+    width: 3em;
+    text-align: left;
+    color: #42526e;
+    /* Pinned so a page of differently sized equations still has an even column of numbers. */
+    font-size: 14px;
+}
+
+.mathlatex-eqno:empty {
+    display: none;
+}
+
+.mathlatex-body {
+    flex: 1 1 auto;
+    /* Without this a wide equation stretches the flex item past its container. */
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2px 0;
+}
+
+/*
+ * KaTeX's own stylesheet puts `text-align: center` on .katex-display and on the .katex inside it,
+ * both of which sit below .mathlatex-body and therefore win. Inheriting instead hands alignment
+ * back to the container. Its 1em margin goes too - .mathlatex-block already spaces itself.
+ */
+.mathlatex-body .katex-display,
+.mathlatex-body .katex-display > .katex {
+    text-align: inherit;
+    margin: 0;
+}
+
+.mathlatex-block[data-mathlatex-align="left"] .mathlatex-body {
+    text-align: left;
+}
+
+.mathlatex-block[data-mathlatex-align="center"] .mathlatex-body {
+    text-align: center;
+}
+
+.mathlatex-block[data-mathlatex-align="right"] .mathlatex-body {
+    text-align: right;
+}
+
+.mathlatex-inline {
+    display: inline;
+}
+
+/*
+ * Size. KaTeX lays everything out in em, so scaling the container scales the whole formula.
+ * The values match Confluence's own heading sizes against its 14px content base.
+ */
+.mathlatex-size-normal { font-size: 1em; }
+.mathlatex-size-h1     { font-size: 1.714em; }
+.mathlatex-size-h2     { font-size: 1.429em; }
+.mathlatex-size-h3     { font-size: 1.143em; }
+.mathlatex-size-h4     { font-size: 1em; }
+.mathlatex-size-h5     { font-size: 0.857em; }
+.mathlatex-size-h6     { font-size: 0.786em; }
+
+/*
+ * The LaTeX source ships inside the macro output so the page degrades to readable text, but it is
+ * hidden as soon as this stylesheet loads - and this stylesheet always loads alongside the script
+ * that replaces it, so there is no flash of raw markup.
+ */
+.mathlatex-src {
+    display: none;
+}
+
+/* Shown again when KaTeX cannot parse the source. */
+.mathlatex-failed .mathlatex-src {
+    display: inline;
+    /* Consolas first on purpose: several Korean-locale monospace fonts draw U+005C as a won sign,
+       which turns every LaTeX command in the fallback into nonsense. */
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    white-space: pre-wrap;
+    color: #bf2600;
+}
+
+/* An unparseable equation reads as an error message, not as a centred formula. */
+.mathlatex-block.mathlatex-failed .mathlatex-body {
+    text-align: left;
+}
+
+.mathlatex-error {
+    display: block;
+    color: #bf2600;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Inline math has no room for a message; the block carries it as a tooltip instead. */
+.mathlatex-inline.mathlatex-failed .mathlatex-error {
+    display: none;
+}
