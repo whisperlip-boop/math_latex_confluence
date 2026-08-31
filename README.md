@@ -5,7 +5,6 @@ A Confluence Data Center P2 app that renders LaTeX math with [KaTeX](https://kat
 - **Target**: Confluence DC 7.8.1 (developed against), 7.12.3 (deployment target)
 - **Rendering**: client side, KaTeX 0.16.11 bundled with the app — no CDN, no server-side JS engine
 - **Extensions**: mhchem, so `\ce{2H2 + O2 -> 2H2O}` works
-- **Not implemented**: PDF/Word export of equations (by design), equation cross-references
 
 ## Macros
 
