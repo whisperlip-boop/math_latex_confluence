@@ -155,11 +155,15 @@ javac -cp "dev/lib/*" -d dev dev/Rasterize.java
 java  -cp "dev/lib/*:dev" Rasterize img/math_block_ico.svg /tmp/out 16 20 32 80
 ```
 
-## Third-party
+## Licence
 
-[KaTeX](https://katex.org/) 0.16.11 is vendored under `src/main/resources/katex/` (MIT, see
-`katex/LICENSE.txt`) together with its `mhchem` extension, so the app has no CDN dependency and
-works on an air-gapped instance.
+Apache License 2.0 - see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+[KaTeX](https://katex.org/) 0.16.11 is vendored under `src/main/resources/katex/`, together with
+its `mhchem` extension, so the app has no CDN dependency and works on an air-gapped instance. KaTeX
+is MIT licensed; its notice is kept at `src/main/resources/katex/LICENSE.txt` and must stay with any
+redistribution. Everything else the app compiles against (the Confluence API, servlet-api, slf4j) is
+`provided` scope and is not redistributed in the JAR.
 
 ## Layout
 

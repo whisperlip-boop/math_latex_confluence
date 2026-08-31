@@ -1,0 +1,9 @@
+Math LaTeX for Confluence
+Copyright 2026 bskim
+
+This product includes software developed by third parties:
+
+KaTeX (https://katex.org/) 0.16.11, together with its mhchem extension, is
+bundled under src/main/resources/katex/ and is licensed under the MIT License.
+Copyright (c) 2013-2020 Khan Academy and other contributors.
+See src/main/resources/katex/LICENSE.txt for the full text.
