@@ -7,3 +7,9 @@ KaTeX (https://katex.org/) 0.16.11, together with its mhchem extension, is
 bundled under src/main/resources/katex/ and is licensed under the MIT License.
 Copyright (c) 2013-2020 Khan Academy and other contributors.
 See src/main/resources/katex/LICENSE.txt for the full text.
+
+The icons are taken from Flaticon (https://www.flaticon.com/free-icon/) and are
+covered by the Flaticon Free License, NOT by this project's Apache-2.0 licence.
+That licence requires attribution to the original author wherever the icons are
+used. This applies to the source artwork in img/ and to everything derived from
+it: src/main/resources/svg/ and the PNGs under src/main/resources/images/.

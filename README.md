@@ -165,6 +165,10 @@ is MIT licensed; its notice is kept at `src/main/resources/katex/LICENSE.txt` an
 redistribution. Everything else the app compiles against (the Confluence API, servlet-api, slf4j) is
 `provided` scope and is not redistributed in the JAR.
 
+The icons come from [Flaticon](https://www.flaticon.com/free-icon/) and are covered by the Flaticon
+Free License rather than by this project's Apache-2.0 - see [NOTICE](NOTICE). Replacing the artwork
+in `img/` with your own removes that obligation.
+
 ## Layout
 
 ```bash
